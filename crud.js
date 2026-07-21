@@ -8,7 +8,7 @@ const practiceAdd = (key, value) => {
     }
     
     try {
-        // Convert non-string values to JSON strings
+        
         const stringValue = typeof value === 'string' ? value : JSON.stringify(value);
         localStorage.setItem(key, stringValue);
         console.log(`✅ Successfully stored: ${key} = ${stringValue}`);
@@ -60,13 +60,13 @@ const getPractice = (key) => {
             return null;
         }
         
-        // Try to parse JSON, but return as-is if it's plain text
+       
         try {
             const parsedValue = JSON.parse(value);
             console.log(`✅ Found: ${key} =`, parsedValue);
             return parsedValue;
         } catch {
-            // Not JSON, return as string
+            
             console.log(`✅ Found: ${key} = ${value}`);
             return value;
         }
@@ -76,9 +76,7 @@ const getPractice = (key) => {
     }
 };
 
-// ============================================
-// 4. VIEW ALL data (Traversal)
-// ============================================
+
 const viewAllData = () => {
     console.log("📦 All data in localStorage:");
     console.log("=" .repeat(40));
@@ -93,13 +91,13 @@ const viewAllData = () => {
     allKeys.forEach(key => {
         const value = localStorage.getItem(key);
         
-        // Try to parse JSON for pretty display
+       
         let displayValue = value;
         try {
             const parsed = JSON.parse(value);
             displayValue = parsed;
         } catch {
-            // Keep as string
+            
         }
         
         console.log(`📌 ${key}:`, displayValue);
@@ -121,29 +119,3 @@ const clearAllData = () => {
 };
 
 
-console.log("🚀 STARTING TESTS\n");
-
-// Add data (Notice: Age is stored as JSON string)
-practiceAdd("FirstName", "John");
-practiceAdd("Age", 18);           // Gets converted to "18"
-practiceAdd("Ismarried", "false");  // Gets converted to "false"
-practiceAdd("height", 167);       // Gets converted to "167"
-
-console.log("\n--- After adding ---");
-viewAllData();  // See ALL data
-
-console.log("\n--- Reading specific keys ---");
-console.log("Age:", getPractice("Age"));           // Returns 18 (number)
-console.log("Ismarried:", getPractice("Ismarried")); // Returns false (boolean)
-
-console.log("\n--- Deleting FirstName ---");
-deletePractice("FirstName");
-
-console.log("\n--- After deletion ---");
-viewAllData();
-
-console.log("\n--- Trying to get deleted key ---");
-getPractice("FirstName");  // Shows warning
-
-// Uncomment to clear everything
-// clearAllData();
